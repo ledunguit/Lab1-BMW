@@ -1,0 +1,81 @@
+<html>
+<head>
+	<title>Simple Info Form</title>
+	<style>
+	    body{
+	    	font-family: Arial
+	    }
+		.label {
+			width: 10%;
+			float: left;
+		}
+		.info{
+			padding: 5px;
+		}
+		form{
+			padding-left: 30px;
+		}
+	</style>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+	<form id="simple-form" action="./submit_form.php" method="POST">
+		<div class="info">
+			<div class="label">Họ và tên</div>
+			<input type="text" name="name"></input><br>
+		</div>
+		<div class="info">
+			<div class="label">Mã số sinh viên</div>
+			<input type="text" name="student_id"></input><br>
+		</div>
+		<div class="info">
+			<div class="label">Email</div>
+			<input type="email" name="email"></input><br>
+		</div>
+		<div class="info">
+			<div class="label">Số điện thoại</div>
+			<input type="text" name="phone"></input><br>
+		</div>
+		<div class="info">
+			<div class="label">Ngày sinh</div>
+			<input type="text" name="dob"></input><br>
+		</div>
+		<div class="info">
+			<div class="label">Giới tính</div>
+			<input type="text" name="gender"></input><br>
+		</div>
+		<div class="info">
+			<div class="label">Địa chỉ</div>
+			<input type="text" name="address"></input><br>
+		</div>
+		<div class="info">
+			<div class="label">Ghi chú</div>
+			<input type="text" name="note"></input><br>
+		</div>
+		<input type="submit" name="submit" value="Lưu"></input>
+		<br>
+	</form>
+</body>
+<script>
+	// Code for submit event
+	var form = document.getElementById("simple-form");
+	form.onsubmit = function(){
+		// Do something to verify inputs
+		// To get an element, use its name property, for example student_id field:
+		form.elements["student_id"].value;
+	}
+    
+    // Using XMLHttpRequest for ajax
+    // For example
+    // var xmlhttp;
+    // if (window.XMLHttpRequest)
+    // {
+    // 	   xmlhttp = new XMLHttpRequest(); 
+    // }
+    // else
+    // 	   xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+
+
+</script>
+</html>
