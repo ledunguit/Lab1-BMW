@@ -23,47 +23,82 @@
 	<form id="simple-form" action="./submit_form.php" method="POST">
 		<div class="info">
 			<div class="label">Họ và tên</div>
-			<input type="text" name="name" required></input><br>
+			<input type="text" name="name" id="name" required></input><br>
 		</div>
 		<div class="info">
 			<div class="label">Mã số sinh viên</div>
-			<input type="text" name="student_id" required></input><br>
+			<input type="text" name="student_id" id="student_id" required></input><br>
 		</div>
 		<div class="info">
 			<div class="label">Email</div>
-			<input type="email" name="email" required></input><br>
+			<input type="email" name="email" id="email" required></input><br>
 		</div>
 		<div class="info">
 			<div class="label">Số điện thoại</div>
-			<input type="text" name="phone" required></input><br>
+			<input type="text" name="phone" id="phone" required></input><br>
 		</div>
 		<div class="info">
 			<div class="label">Ngày sinh</div>
-			<input type="text" name="dob"></input><br>
+			<input type="text" name="dob" id="dob"></input><br>
 		</div>
 		<div class="info">
 			<div class="label">Giới tính</div>
-			<input type="text" name="gender"></input><br>
+			<input type="text" name="gender" id="gender"></input><br>
 		</div>
 		<div class="info">
 			<div class="label">Địa chỉ</div>
-			<input type="text" name="address"></input><br>
+			<input type="text" name="address" id="address"></input><br>
 		</div>
 		<div class="info">
 			<div class="label">Ghi chú</div>
 			<input type="text" name="note"></input><br>
 		</div>
 		<input type="submit" name="submit" value="Lưu"></input>
+		<input type="button" name="fill" value="Fill Form" id="btnFill"></input>
 		<br>
 	</form>
 </body>
 <script>
 	// Code for submit event
+
+	function fillForm() {
+		document.getElementById('name').setAttribute('value', 'Lê Đăng Dũng');
+		document.getElementById('student_id').setAttribute('value', '18520633');
+		document.getElementById('email').setAttribute('value', 'ledung.itsme@gmail.com');
+		document.getElementById('phone').setAttribute('value', '0364442342');
+	}
+
+	document.getElementById('btnFill').addEventListener('click', function() {
+		fillForm();
+	});
+
+	function removeAscent (str) {
+		if (str === null || str === undefined) return str;
+		str = str.toLowerCase();
+		str = str.replace(/\s+/g, ' ');
+		str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+		str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+		str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+		str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+		str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+		str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+		str = str.replace(/đ/g, "d");
+		console.log(str);
+		return str;
+	}
+
+	function isValidName(string) {
+		return true;
+	}
+
 	var form = document.getElementById("simple-form");
-	form.onsubmit = function(){
-		// Do something to verify inputs
-		// To get an element, use its name property, for example student_id field:
-		form.elements["student_id"].value;
+	form.onsubmit = function(e){
+		var studentFName = form.elements["name"].value;
+		console.log(isValidName(studentFName));
+		if (isValidName(studentFName)) {
+			form.submit();
+		}
+		e.preventDefault();
 	}
 
     // Using XMLHttpRequest for ajax
