@@ -23,19 +23,19 @@
 	<form id="simple-form" action="./submit_form.php" method="POST">
 		<div class="info">
 			<div class="label">Họ và tên</div>
-			<input type="text" name="name"></input><br>
+			<input type="text" name="name" required></input><br>
 		</div>
 		<div class="info">
 			<div class="label">Mã số sinh viên</div>
-			<input type="text" name="student_id"></input><br>
+			<input type="text" name="student_id" required></input><br>
 		</div>
 		<div class="info">
 			<div class="label">Email</div>
-			<input type="email" name="email"></input><br>
+			<input type="email" name="email" required></input><br>
 		</div>
 		<div class="info">
 			<div class="label">Số điện thoại</div>
-			<input type="text" name="phone"></input><br>
+			<input type="text" name="phone" required></input><br>
 		</div>
 		<div class="info">
 			<div class="label">Ngày sinh</div>
@@ -65,13 +65,13 @@
 		// To get an element, use its name property, for example student_id field:
 		form.elements["student_id"].value;
 	}
-    
+
     // Using XMLHttpRequest for ajax
     // For example
     // var xmlhttp;
     // if (window.XMLHttpRequest)
     // {
-    // 	   xmlhttp = new XMLHttpRequest(); 
+    // 	   xmlhttp = new XMLHttpRequest();
     // }
     // else
     // 	   xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
