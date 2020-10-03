@@ -3,32 +3,33 @@
 	//Change these configs according to your MySQL server
 	$servername = "localhost";
 	$username = "root";
-	$password = "root";
-	$database = "testdb";
-	$table = "user";
+	$password = "Nt208@123456";
+	$database = "nt213lab1";
+	$table = "student_info";
 
-	// Create connection
-	$conn = mysqli_connect($servername, $username, $password, $database);
-		// Check connection
-		if ($conn->connect_error) {
-			$_SESSION['msg'] = "Connection failed";
-		    //die("Connection failed: " . $conn->connect_error);
-		}
-		else{
-			$username = $_POST['username'];
-			$password = $_POST['password'];
-			$sql_command = "SELECT * FROM ".$table." WHERE username='".$username."' and password='".$password."'";
-
-			$result = mysqli_query($conn, $sql_command);
-			if (mysqli_num_rows($result) > 0)
-				$_SESSION['name'] = $result[0]['username'];
-			else
-			{
-				$_SESSION['name'] = null;
-				$_SESSION['msg'] = "Login failed";
+	$conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
+	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	if (isset($_POST['login_info'])) {
+		try {
+			$data = $_POST['login_info'];
+			$sql = "select * from users where username = :username and password = :password";
+			$stmt = $conn->prepare($sql);
+			$stmt->execute(array(
+				'username' => $data['username'],
+				'password' => MD5($data['password'])
+			));
+			$result = $stmt->fetch(PDO::FETCH_OBJ);
+			if ($result) {
+				$_SESSION['msg'] = "Login Success!";
+				$_SESSION['name'] = $result->username;
+			} else {
+				$_SESSION['msg'] = "Login Failed!";
 			}
-			mysqli_close($conn);
+		} catch (PDOException $e) {
+			$_SESSION['msg'] = "Login Failed!";
+ 			echo $e->getMessage();
 		}
+	}
 ?>
 <html>
 <head>
@@ -52,12 +53,12 @@
 </head>
 <body>
 	<?php
-	 	if ( isset($_SESSION['name']) )
+	 	if (isset($_SESSION['name']))
 		 	echo 'Welcome '.$_SESSION['name'];
 		else{
-			if ( isset($_SESSION['msg']) )
+			if (isset($_SESSION['msg']))
 				echo $_SESSION['msg'];
-		} 
+		}
 	?>
 </body>
 </html>

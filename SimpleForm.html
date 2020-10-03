@@ -20,52 +20,52 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 </head>
 <body>
-	<form id="simple-form" action="./submit_form.php" method="POST">
+	<form id="simple-form" name="student_info" action="./submit_form.php" method="POST">
 		<div class="info">
 			<div class="label">Họ và tên</div>
-			<input type="text" name="name" id="name" required></input><br>
+			<input type="text" name="info[name]" id="name" required></input><br>
 		</div>
 		<div class="info">
 			<div class="label">Mã số sinh viên</div>
-			<input type="text" name="student_id" id="student_id" maxlength="15" required></input><br>
+			<input type="text" name="info[student_id]" id="student_id" maxlength="15" required></input><br>
 		</div>
 		<div class="info">
 			<div class="label">Email</div>
-			<input type="email" name="email" id="email" required></input><br>
+			<input type="email" name="info[email]" id="email" required></input><br>
 		</div>
 		<div class="info">
 			<div class="label">Số điện thoại</div>
-			<input type="text" name="phone" id="phone" maxlength="15" required></input><br>
+			<input type="text" name="info[phone]" id="phone" maxlength="15" required></input><br>
 		</div>
 		<div class="info">
 			<div class="label">Ngày sinh</div>
-			<input type="text" name="dob" id="dob"></input><br>
+			<input type="text" name="info[dob]" id="dob"></input><br>
 		</div>
 		<div class="info">
 			<div class="label">Giới tính</div>
-			<input type="text" name="gender" id="gender"></input><br>
+			<input type="text" name="info[gender]" id="gender"></input><br>
 		</div>
 		<div class="info">
 			<div class="label">Địa chỉ</div>
-			<input type="text" name="address" id="address"></input><br>
+			<input type="text" name="info[address]" id="address"></input><br>
 		</div>
 		<div class="info">
 			<div class="label">Ghi chú</div>
-			<input type="text" name="note"></input><br>
+			<input type="text" name="info[note]"></input><br>
 		</div>
 		<input type="submit" name="submit" value="Lưu" id="btnSubmit"></input>
 		<input type="button" name="fill" value="Fill Form" id="btnFill"></input>
 		<input type="button" value="Go to login" id="btnSwitch"></input>
 		<br>
 	</form>
-	<form action="login.php" id="loginForm">
+	<form action="login.php" id="loginForm" method="post">
 		<div class="info">
 			<div class="label">Tên đăng nhập</div>
-			<input type="text" name="username" id="username">
+			<input type="text" name="login_info[username]" id="username">
 		</div>
 		<div class="info">
 			<div class="label">Mật khẩu</div>
-			<input type="password" name="password" id="password">
+			<input type="password" name="login_info[password]" id="password">
 		</div>
 		<input type="submit" value="Đăng nhập">
 	</form>
