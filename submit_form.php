@@ -3,12 +3,35 @@
 	//Change these configs according to your MySQL server
 	$servername = "localhost";
 	$username = "root";
-	$password = "root";
-	$database = "testdb"; 		 
+	$password = "Nt208@123456";
+	$database = "nt213lab1";
 	$table = "student_info";
 
+	$conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
+	$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+	if (isset($_POST['info'])) {
+		try {
+			$data = $_POST['info'];
+			$sql = "insert into student_info(fullname, student_id, phone, email, birthday, gender, address, comment) values (:fullname, :student_id, :phone, :email, :birthday, :gender, :address, :comment)";
+			$stmt = $conn->prepare($sql);
+			$stmt->execute(array(
+				'fullname' => $data['name'],
+				'student_id' => $data['student_id'],
+				'phone' => $data['phone'],
+				'email' => $data['email'],
+				'birthday' => $data['dob'],
+				'gender' => $data['gender'],
+				'address' => $data['address'],
+				'comment' => $data['note']
+			));
+			$_SESSION['msg'] = "New record created successfully";
+		} catch (PDOException $e) {
+			echo $e->getMessage();
+		}
+	}
+
 	// Create connection
-	$conn = mysqli_connect($servername, $username, $password, $database);
+	/* $conn = mysqli_connect($servername, $username, $password, $database);
 		// Check connection
 		if ($conn->connect_error) {
 			$_SESSION['msg'] = "Connection failed";
@@ -18,7 +41,7 @@
 			// 2 ways to get fields in form, the later is more secure
 			// $name = $_POST['name'];
 			// $name = mysqli_real_escape_string($conn, $_POST['name']);
-			
+
 			//Create SQL command to insert data to database
 			$sql_command = "INSERT INTO ...";
 
@@ -27,7 +50,7 @@
 			else
 				$_SESSION['msg'] = $conn->error;
 			mysqli_close($conn);
-		}
+		} */
 ?>
 <html>
 <head>
