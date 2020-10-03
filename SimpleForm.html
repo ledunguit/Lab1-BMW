@@ -27,7 +27,7 @@
 		</div>
 		<div class="info">
 			<div class="label">Mã số sinh viên</div>
-			<input type="text" name="student_id" id="student_id" required></input><br>
+			<input type="text" name="student_id" id="student_id" maxlength="15" required></input><br>
 		</div>
 		<div class="info">
 			<div class="label">Email</div>
@@ -35,7 +35,7 @@
 		</div>
 		<div class="info">
 			<div class="label">Số điện thoại</div>
-			<input type="text" name="phone" id="phone" required></input><br>
+			<input type="text" name="phone" id="phone" maxlength="15" required></input><br>
 		</div>
 		<div class="info">
 			<div class="label">Ngày sinh</div>
@@ -53,9 +53,21 @@
 			<div class="label">Ghi chú</div>
 			<input type="text" name="note"></input><br>
 		</div>
-		<input type="submit" name="submit" value="Lưu"></input>
+		<input type="submit" name="submit" value="Lưu" id="btnSubmit"></input>
 		<input type="button" name="fill" value="Fill Form" id="btnFill"></input>
+		<input type="button" value="Go to login" id="btnSwitch"></input>
 		<br>
+	</form>
+	<form action="login.php" id="loginForm">
+		<div class="info">
+			<div class="label">Tên đăng nhập</div>
+			<input type="text" name="username" id="username">
+		</div>
+		<div class="info">
+			<div class="label">Mật khẩu</div>
+			<input type="password" name="password" id="password">
+		</div>
+		<input type="submit" value="Đăng nhập">
 	</form>
 </body>
 <script>
@@ -75,7 +87,6 @@
 	function removeAscent (str) {
 		if (str === null || str === undefined) return str;
 		str = str.toLowerCase();
-		str = str.replace(/\s+/g, ' ');
 		str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
 		str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
 		str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
@@ -83,24 +94,43 @@
 		str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
 		str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
 		str = str.replace(/đ/g, "d");
-		console.log(str);
 		return str;
 	}
 
-	function isValidName(string) {
-		return true;
-	}
-
+	var btnSubmit = document.getElementById("btnSubmit");
 	var form = document.getElementById("simple-form");
-	form.onsubmit = function(e){
-		var studentFName = form.elements["name"].value;
-		console.log(isValidName(studentFName));
-		if (isValidName(studentFName)) {
+	document.cookie = "username=18520633; expires=Thu, 24 Sep 2020 13:31:00 UTC";
+    document.cookie = "simple=18520633";
+
+	btnSubmit.addEventListener('click', function(e) {
+		var isValid = true;
+		var name = document.getElementById('name').value;
+		// Validate start
+		if (name === null || name === "") {
+			alert("Họ và tên không được để trống!");
+		} else {
+			var re = /^[a-zA-Z]+$/;
+			if (!re.test(removeAscent(name.replace(/\s/g, '')))) {
+				alert("vui lòng kiểm tra lại họ và tên!");
+				isValid = false;
+			}
+		}
+
+		// Validate end
+		if (isValid) {
 			form.submit();
 		}
 		e.preventDefault();
-	}
+	})
 
+	$(document).ready(function() {
+		$("#loginForm").css('display', 'none');
+	})
+
+	$("#btnSwitch").click(function() {
+		$("#simple-form").replaceWith($("#loginForm"));
+		$("#loginForm").css('display', 'block');
+	})
     // Using XMLHttpRequest for ajax
     // For example
     // var xmlhttp;
