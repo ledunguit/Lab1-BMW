@@ -22,6 +22,7 @@
 			if ($result) {
 				$_SESSION['msg'] = "Login Success!";
 				$_SESSION['name'] = $result->username;
+				setcookie("UserSession", $_SESSION['name']);
 			} else {
 				$_SESSION['msg'] = "Login Failed!";
 			}
