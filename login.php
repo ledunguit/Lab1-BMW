@@ -22,6 +22,7 @@
 			if ($result) {
 				$_SESSION['msg'] = "Login Success!";
 				$_SESSION['name'] = $result->username;
+				setcookie("UserSession", $_SESSION['name']);
 			} else {
 				$_SESSION['msg'] = "Login Failed!";
 			}
@@ -53,9 +54,9 @@
 </head>
 <body>
 	<?php
-	 	if (isset($_SESSION['name']))
-		 	echo 'Welcome '.$_SESSION['name'];
-		else{
+	 	if (isset($_SESSION['name'])) {
+			echo 'Welcome '.$_SESSION['name'];
+		} else {
 			if (isset($_SESSION['msg']))
 				echo $_SESSION['msg'];
 		}

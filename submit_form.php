@@ -12,6 +12,15 @@
 	if (isset($_POST['info'])) {
 		try {
 			$data = $_POST['info'];
+			if (isset($data['gender'])) {
+				if ($data['gender'] === "Nam") {
+					$data['gender'] = 1;
+				} else if ($data['gender'] === "Nữ") {
+					$data['gender'] = 2;
+				} else {
+					$data['gender'] = 3;
+				}
+			}
 			$sql = "insert into student_info(fullname, student_id, phone, email, birthday, gender, address, comment) values (:fullname, :student_id, :phone, :email, :birthday, :gender, :address, :comment)";
 			$stmt = $conn->prepare($sql);
 			$stmt->execute(array(

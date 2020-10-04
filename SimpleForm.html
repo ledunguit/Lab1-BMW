@@ -51,10 +51,12 @@
 		</div>
 		<div class="info">
 			<div class="label">Ghi chú</div>
-			<input type="text" name="info[note]"></input><br>
+			<input type="text" name="info[note]" id="note"></input><br>
 		</div>
+		<span id="message">Thông báo ở đây!</span></br>
 		<input type="submit" name="submit" value="Lưu" id="btnSubmit"></input>
 		<input type="button" name="fill" value="Fill Form" id="btnFill"></input>
+		<input type="button" name="saveWithAjax" value="Save with Ajax" id="btnSaveWithAjax"></input>
 		<input type="button" value="Go to login" id="btnSwitch"></input>
 		<br>
 	</form>
@@ -78,6 +80,8 @@
 		document.getElementById('student_id').setAttribute('value', '18520633');
 		document.getElementById('email').setAttribute('value', 'ledung.itsme@gmail.com');
 		document.getElementById('phone').setAttribute('value', '0364442342');
+		document.getElementById('dob').setAttribute('value', '2000-09-12');
+		document.getElementById('gender').setAttribute('value', 'Nam');
 	}
 
 	document.getElementById('btnFill').addEventListener('click', function() {
@@ -130,6 +134,28 @@
 	$("#btnSwitch").click(function() {
 		$("#simple-form").replaceWith($("#loginForm"));
 		$("#loginForm").css('display', 'block');
+	})
+
+	$("#btnSaveWithAjax").click(function() {
+		var dataInfo = {};
+		dataInfo['name'] = $("#name").val();
+		dataInfo['student_id'] = $("#student_id").val();
+		dataInfo['email'] = $("#email").val();
+		dataInfo['phone'] = $("#phone").val();
+		dataInfo['dob'] = $("#dob").val();
+		dataInfo['gender'] = $("#gender").val();
+		dataInfo['address'] = $("#address").val();
+		dataInfo['note'] = $("#note").val();
+		$.ajax({
+			type    : 'POST',
+			cache   : false,
+			url     : 'ajaxsaveinfo.php',
+			data    : {dataAjax:JSON.stringify(dataInfo)},
+			success : function(response) {
+				var res =JSON.parse(response)
+				$('#message').html(res.status);
+			}
+		});
 	})
     // Using XMLHttpRequest for ajax
     // For example
