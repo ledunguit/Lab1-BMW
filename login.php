@@ -53,9 +53,9 @@
 </head>
 <body>
 	<?php
-	 	if (isset($_SESSION['name']))
-		 	echo 'Welcome '.$_SESSION['name'];
-		else{
+	 	if (isset($_SESSION['name'])) {
+			echo 'Welcome '.$_SESSION['name'];
+		} else {
 			if (isset($_SESSION['msg']))
 				echo $_SESSION['msg'];
 		}
