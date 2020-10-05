@@ -15,6 +15,11 @@
 		form{
 			padding-left: 30px;
 		}
+
+		#message {
+			display: none;
+			color: red;
+		}
 	</style>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -56,7 +61,8 @@
 		<span id="message">Thông báo ở đây!</span></br>
 		<input type="submit" name="submit" value="Lưu" id="btnSubmit"></input>
 		<input type="button" name="fill" value="Fill Form" id="btnFill"></input>
-		<input type="button" name="saveWithAjax" value="Save with Ajax" id="btnSaveWithAjax"></input>
+		<input type="button" name="saveWithAjax" value="Save with Ajax Jquery" id="btnSaveWithAjax"></input>
+		<input type="button" name="saveWithAjax" value="Save with Ajax JS" id="btnSaveWithAjaxJS"></input>
 		<input type="button" value="Go to login" id="btnSwitch"></input>
 		<br>
 	</form>
@@ -152,10 +158,36 @@
 			url     : 'ajaxsaveinfo.php',
 			data    : {dataAjax:JSON.stringify(dataInfo)},
 			success : function(response) {
-				var res =JSON.parse(response)
+				var res = JSON.parse(response)
+				$('#message').css('display', 'block');
 				$('#message').html(res.status);
 			}
 		});
+	})
+
+	var btnSave = document.getElementById("btnSaveWithAjaxJS");
+	btnSave.addEventListener('click', function() {
+		var dataInfo = {};
+		dataInfo['name'] = document.getElementById('name').value;
+		dataInfo['student_id'] = document.getElementById('student_id').value;
+		dataInfo['email'] = document.getElementById('email').value;
+		dataInfo['phone'] = document.getElementById('phone').value;
+		dataInfo['dob'] = document.getElementById('dob').value;
+		dataInfo['gender'] = document.getElementById('gender').value;
+		dataInfo['address'] = document.getElementById('address').value;
+		dataInfo['note'] = document.getElementById('note').value;
+		var request = new XMLHttpRequest();
+		request.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+				var res = this.responseText;
+				var message = JSON.parse(res).status;
+				document.getElementById('message').innerHTML = message;
+				document.getElementById('message').style.display = "block";
+			}
+		};
+		request.open("POST", "ajaxsaveinfo.php", true);
+		request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		request.send('dataAjax=' + JSON.stringify(dataInfo));
 	})
     // Using XMLHttpRequest for ajax
     // For example
