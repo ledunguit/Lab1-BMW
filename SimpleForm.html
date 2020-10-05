@@ -15,6 +15,11 @@
 		form{
 			padding-left: 30px;
 		}
+
+		#message {
+			display: none;
+			color: red;
+		}
 	</style>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -56,7 +61,8 @@
 		<span id="message">Thông báo ở đây!</span></br>
 		<input type="submit" name="submit" value="Lưu" id="btnSubmit"></input>
 		<input type="button" name="fill" value="Fill Form" id="btnFill"></input>
-		<input type="button" name="saveWithAjax" value="Save with Ajax" id="btnSaveWithAjax"></input>
+		<input type="button" name="saveWithAjax" value="Save with Ajax Jquery" id="btnSaveWithAjax"></input>
+		<input type="button" name="saveWithAjax" value="Save with Ajax JS" id="btnSaveWithAjaxJS"></input>
 		<input type="button" value="Go to login" id="btnSwitch"></input>
 		<br>
 	</form>
@@ -74,8 +80,7 @@
 </body>
 <script>
 	// Code for submit event
-
-	function fillForm() {
+	function fillForm() { // Data dùng để test
 		document.getElementById('name').setAttribute('value', 'Lê Đăng Dũng');
 		document.getElementById('student_id').setAttribute('value', '18520633');
 		document.getElementById('email').setAttribute('value', 'ledung.itsme@gmail.com');
@@ -85,10 +90,10 @@
 	}
 
 	document.getElementById('btnFill').addEventListener('click', function() {
-		fillForm();
+		fillForm(); // tự động điền form
 	});
 
-	function removeAscent (str) {
+	function removeAscent (str) { // Xóa các dấu Tiếng Việt trước khi kiểm tra tên
 		if (str === null || str === undefined) return str;
 		str = str.toLowerCase();
 		str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
@@ -101,30 +106,29 @@
 		return str;
 	}
 
-	var btnSubmit = document.getElementById("btnSubmit");
-	var form = document.getElementById("simple-form");
-	document.cookie = "username=18520633; expires=Thu, 24 Sep 2020 13:31:00 UTC";
-    document.cookie = "simple=18520633";
+	var btnSubmit = document.getElementById("btnSubmit"); // nút Lưu
+	var form = document.getElementById("simple-form"); // Form điền thông tin info
+	document.cookie = "username=18520633; expires=Thu, 24 Sep 2020 13:31:00 UTC"; // tạo cookie bằng JS có hạn
+    document.cookie = "simple=18520633"; // tạo cookie không có thời gian hủy, thay vào đó sẽ tự hủy khi hết phiên làm việc
 
-	btnSubmit.addEventListener('click', function(e) {
-		var isValid = true;
-		var name = document.getElementById('name').value;
+	btnSubmit.addEventListener('click', function(e) { // thêm sự kiện cho nút Lưu
+		var isValid = true; // Giả sử toàn bộ giữ liệu đều hợp lệ
+		var name = document.getElementById('name').value; // lấy trường dữ liệu họ và tên
 		// Validate start
 		if (name === null || name === "") {
 			alert("Họ và tên không được để trống!");
 		} else {
-			var re = /^[a-zA-Z]+$/;
-			if (!re.test(removeAscent(name.replace(/\s/g, '')))) {
-				alert("vui lòng kiểm tra lại họ và tên!");
-				isValid = false;
+			var re = /^[a-zA-Z]+$/; // Regex chỉ cho phép chữ cái
+			if (!re.test(removeAscent(name.replace(/\s/g, '')))) { // xóa dấu cách, xóa dấu tiếng Việt, kiểm tra tên
+				alert("vui lòng kiểm tra lại họ và tên!"); // Thông báo cho người dùng nếu họ và tên không hợp lệ
+				isValid = false; // chuyển trạng thái về dữ liệu không hợp lệ
 			}
 		}
-
 		// Validate end
-		if (isValid) {
-			form.submit();
+		if (isValid) { // kiểm tra toàn bộ giữ liệu có hợp lệ hay không
+			form.submit(); // submit form thông tin
 		}
-		e.preventDefault();
+		e.preventDefault(); // Ngăn việc submit theo default
 	})
 
 	$(document).ready(function() {
@@ -136,7 +140,7 @@
 		$("#loginForm").css('display', 'block');
 	})
 
-	$("#btnSaveWithAjax").click(function() {
+	$("#btnSaveWithAjax").click(function() { // Ajax được viết bằng Jquery
 		var dataInfo = {};
 		dataInfo['name'] = $("#name").val();
 		dataInfo['student_id'] = $("#student_id").val();
@@ -152,21 +156,38 @@
 			url     : 'ajaxsaveinfo.php',
 			data    : {dataAjax:JSON.stringify(dataInfo)},
 			success : function(response) {
-				var res =JSON.parse(response)
+				var res = JSON.parse(response)
+				$('#message').css('display', 'block');
 				$('#message').html(res.status);
 			}
 		});
 	})
-    // Using XMLHttpRequest for ajax
-    // For example
-    // var xmlhttp;
-    // if (window.XMLHttpRequest)
-    // {
-    // 	   xmlhttp = new XMLHttpRequest();
-    // }
-    // else
-    // 	   xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
 
 
+	// Ajax được viết bằng Javascript không sử dụng Jquery
+	var btnSave = document.getElementById("btnSaveWithAjaxJS");
+	btnSave.addEventListener('click', function() {
+		var dataInfo = {};
+		dataInfo['name'] = document.getElementById('name').value;
+		dataInfo['student_id'] = document.getElementById('student_id').value;
+		dataInfo['email'] = document.getElementById('email').value;
+		dataInfo['phone'] = document.getElementById('phone').value;
+		dataInfo['dob'] = document.getElementById('dob').value;
+		dataInfo['gender'] = document.getElementById('gender').value;
+		dataInfo['address'] = document.getElementById('address').value;
+		dataInfo['note'] = document.getElementById('note').value;
+		var request = new XMLHttpRequest();
+		request.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+				var res = this.responseText;
+				var message = JSON.parse(res).status;
+				document.getElementById('message').innerHTML = message;
+				document.getElementById('message').style.display = "block";
+			}
+		};
+		request.open("POST", "ajaxsaveinfo.php", true);
+		request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		request.send('dataAjax=' + JSON.stringify(dataInfo));
+	})
 </script>
 </html>
