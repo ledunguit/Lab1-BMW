@@ -1,0 +1,122 @@
+<html>
+<head>
+	<title>Simple Info Form</title>
+	<style>
+	    body{
+	    	font-family: Arial
+	    }
+		.label {
+			width: 10%;
+			float: left;
+		}
+		.info{
+			padding: 5px;
+		}
+		form{
+			padding-left: 30px;
+		}
+
+		#message {
+			display: none;
+			color: red;
+		}
+	</style>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+	<form id="simple-form" name="student_info" action="./submit_form.php" method="POST">
+		<div class="info">
+			<div class="label">Họ và tên</div>
+			<input type="text" name="info[name]" id="name" required></input><br>
+		</div>
+		<div class="info">
+			<div class="label">Mã số sinh viên</div>
+			<input type="text" name="info[student_id]" id="student_id" maxlength="15" required></input><br>
+		</div>
+		<div class="info">
+			<div class="label">Email</div>
+			<input type="email" name="info[email]" id="email" required></input><br>
+		</div>
+		<div class="info">
+			<div class="label">Số điện thoại</div>
+			<input type="text" name="info[phone]" id="phone" maxlength="15" required></input><br>
+		</div>
+		<div class="info">
+			<div class="label">Ngày sinh</div>
+			<input type="text" name="info[dob]" id="dob"></input><br>
+		</div>
+		<div class="info">
+			<div class="label">Giới tính</div>
+			<input type="text" name="info[gender]" id="gender"></input><br>
+		</div>
+		<div class="info">
+			<div class="label">Địa chỉ</div>
+			<input type="text" name="info[address]" id="address"></input><br>
+		</div>
+		<div class="info">
+			<div class="label">Ghi chú</div>
+			<input type="text" name="info[note]" id="note"></input><br>
+		</div>
+		<span id="message">Thông báo ở đây!</span></br>
+		<br>
+	</form>
+</body>
+<script>
+	// Code for submit event tự động require 3.3
+	$(document).ready(function() {
+		document.getElementById('name').setAttribute('value', 'Lê Đăng Dũng');
+		document.getElementById('student_id').setAttribute('value', '18520633');
+		document.getElementById('email').setAttribute('value', 'ledung.itsme@gmail.com');
+		document.getElementById('phone').setAttribute('value', '0364442342');
+		document.getElementById('dob').setAttribute('value', '2000-09-12');
+		document.getElementById('gender').setAttribute('value', 'Nam');
+		var dataInfo = {};
+		dataInfo['name'] = $("#name").val();
+		dataInfo['student_id'] = $("#student_id").val();
+		dataInfo['email'] = $("#email").val();
+		dataInfo['phone'] = $("#phone").val();
+		dataInfo['dob'] = $("#dob").val();
+		dataInfo['gender'] = $("#gender").val();
+		dataInfo['address'] = $("#address").val();
+		dataInfo['note'] = $("#note").val();
+		$.ajax({
+			type    : 'POST',
+			cache   : false,
+			url     : 'ajaxsaveinfo.php',
+			data    : {dataAjax:JSON.stringify(dataInfo)},
+			success : function(response) {
+				var res = JSON.parse(response)
+				$('#message').css('display', 'block');
+				$('#message').html("Đã lưu tự động!");
+			}
+		});
+	})
+
+	// Ajax được viết bằng Javascript không sử dụng Jquery
+	var btnSave = document.getElementById("btnSaveWithAjaxJS");
+	btnSave.addEventListener('click', function() {
+		var dataInfo = {};
+		dataInfo['name'] = document.getElementById('name').value;
+		dataInfo['student_id'] = document.getElementById('student_id').value;
+		dataInfo['email'] = document.getElementById('email').value;
+		dataInfo['phone'] = document.getElementById('phone').value;
+		dataInfo['dob'] = document.getElementById('dob').value;
+		dataInfo['gender'] = document.getElementById('gender').value;
+		dataInfo['address'] = document.getElementById('address').value;
+		dataInfo['note'] = document.getElementById('note').value;
+		var request = new XMLHttpRequest();
+		request.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+				var res = this.responseText;
+				var message = JSON.parse(res).status;
+				document.getElementById('message').innerHTML = message;
+				document.getElementById('message').style.display = "block";
+			}
+		};
+		request.open("POST", "ajaxsaveinfo.php", true);
+		request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		request.send('dataAjax=' + JSON.stringify(dataInfo));
+	})
+</script>
+</html>
